@@ -8,22 +8,30 @@ namespace WeatherApp
     public partial class WeatherApp : Form
     {
         private City _city;
+        private Image _image;
 
         private readonly Size _initialFormSize = new Size(300,300);
-        private const string FileName = "meteoPicture";
+        private readonly Size _workingFormSize = new Size(673,674);
+        private const string UmModelFileName = "UmModel";
+        private const string CoampsModelFileName = "CoampsModel";
 
         public WeatherApp()
         {
             InitializeComponent();
-            pictureBox1.Visible = false;
+            ResetForm();
         }
 
         public void ResetForm()
         {
             Size = _initialFormSize;
-            pictureBox1.Visible = false;
+            tabControl1.Visible = false;
+            coampsPicture.Visible = false;
             groupBox1.Visible = true;
+            groupBox1.Parent = this;
             textBox1.Text = "";
+            coampsPicture.Image = null;
+            umPicture.Image = null;
+            if (_image != null) _image.Dispose();
         }
 
         public bool TrySetCity(string city, Country country)
@@ -40,29 +48,78 @@ namespace WeatherApp
             }
         }
 
-        public void DownloadPicture(string fileName)
+        public void DownloadPicture(string fileName, Model model)
         {
-            string path = String.Format("http://www.meteo.pl/um/php/mgram_search.php?NALL={0}&EALL={1}&lang=pl",_city.Latitude,_city.Longitude);
-            WebRequest req = WebRequest.Create(path);
-            WebResponse res = req.GetResponse();
-            string temp = res.ResponseUri.ToString();
-            res.Dispose();
-            string pictureUri = temp.Replace("meteorogram_map_um", "mgram_pict").Replace("/php/","/metco/");
-            
+            var pictureUri = GetPictureUri(model);
+
+
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadFile(pictureUri, fileName);
             }
         }
 
-        public void ViewPictureOnPictureBox(string fileName)
+        private string GetPictureUri(Model model)
         {
-            Image image = Image.FromFile(fileName);
-            pictureBox1.Image = image;
-            pictureBox1.Location = new Point(0,menuStrip1.Bottom);
-            pictureBox1.Height = image.Height;
-            pictureBox1.Width = image.Width;
-            pictureBox1.Visible = true;
+            string path;
+            switch (model)
+            {
+                case Model.Coamps:
+                    path = String.Format("http://www.meteo.pl/php/mgram_search.php?NALL={0}&EALL={1}&lang=pl", _city.Latitude,
+                                         _city.Longitude);
+                    break;
+
+                default:
+                case Model.Um:
+                    path = String.Format("http://www.meteo.pl/um/php/mgram_search.php?NALL={0}&EALL={1}&lang=pl", _city.Latitude,
+                                         _city.Longitude);
+                    break;
+            }
+
+
+            WebRequest req = WebRequest.Create(path);
+            WebResponse res = req.GetResponse();
+            string temp = res.ResponseUri.ToString();
+            res.Dispose();
+            string pictureUri;
+
+            switch (model)
+            {
+                case Model.Coamps:
+                    pictureUri = temp.Replace("meteorogram_map_coamps", "mgram_pict").Replace("/php/", "/metco/");
+                    break;
+
+                default:
+                case Model.Um:
+                    pictureUri = temp.Replace("meteorogram_map_um", "mgram_pict").Replace("/php/", "/metco/");
+                    break;
+            }
+            return pictureUri;
+        }
+
+        public void ViewPictureOnPictureBox(string fileName, PictureBox pictureBox)
+        {
+            _image = Image.FromFile(fileName);
+            pictureBox.Image = _image;
+            pictureBox.Visible = true;
+            pictureBox.Location = tabControl1.Location;
+            tabControl1.Visible = true;
+        }
+
+        public void ViewUmPictureFromUrl(PictureBox pictureBox)
+        {
+            pictureBox.ImageLocation = GetPictureUri(Model.Um);
+            pictureBox.Visible = true;
+            pictureBox.Location = tabControl1.Location;
+            tabControl1.Visible = true;
+        }
+
+        public void ViewCoampsPictureFromUrl(PictureBox pictureBox)
+        {
+            pictureBox.ImageLocation = GetPictureUri(Model.Coamps);
+            pictureBox.Visible = true;
+            pictureBox.Location = tabControl1.Location;
+            tabControl1.Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -77,27 +134,25 @@ namespace WeatherApp
             if (TrySetCity(cityName, Country.Poland))
             {
                 groupBox1.Visible = false;
-                DownloadPicture(FileName);
-                ViewPictureOnPictureBox(FileName);
-                Size = new Size(pictureBox1.Width,pictureBox1.Height + 20);
+                //DownloadPicture(CoampsModelFileName,Model.Coamps);
+                //DownloadPicture(UmModelFileName,Model.Um);
+                //ViewPictureOnPictureBox(CoampsModelFileName, coampsPicture);
+                //ViewPictureOnPictureBox(UmModelFileName, umPicture);
+                ViewUmPictureFromUrl(umPicture);
+                ViewCoampsPictureFromUrl(coampsPicture);
+                this.ClientSize = _workingFormSize;
             }
         }
 
         private void setCityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Visible)
-            {
-                ResetForm();
-            }
+            ResetForm();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
-        
-        
     }
 
     public enum Country
@@ -105,5 +160,11 @@ namespace WeatherApp
         Poland,
         England,
         Germany,
+    }
+
+    public enum Model
+    {
+        Um,
+        Coamps,
     }
 }
