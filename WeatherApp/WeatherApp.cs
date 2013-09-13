@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Net;
 using System.Windows.Forms;
 
 namespace WeatherApp
@@ -8,19 +7,32 @@ namespace WeatherApp
     public partial class WeatherApp : Form
     {
         private City _city;
-        private Image _image;
-
+        private MeteoPicture _meteoPicture;
+        
         private readonly Size _initialFormSize = new Size(300,300);
-        private readonly Size _workingFormSize = new Size(673,674);
-        private const string UmModelFileName = "UmModel";
-        private const string CoampsModelFileName = "CoampsModel";
+        private readonly Size _workingFormSize = new Size(689,674);
+
+        private const char Degree = (char) 176;
+        
 
         public WeatherApp()
         {
             InitializeComponent();
-            ResetForm();
         }
 
+        private void SetLabels()
+        {
+            label2.Text = string.Format("{0}, {1}{2}\n{3}", _city.GetCityName().ToUpper(), _city.CurrentTemperature, Degree,
+                                        _city.WeatherDescription);
+            
+            label2.Location = tabControl1.Location;
+            label2.Visible = true;
+
+            label3.Text = label2.Text;
+            label3.Location = label2.Location;
+        }
+
+        
         public void ResetForm()
         {
             Size = _initialFormSize;
@@ -31,14 +43,17 @@ namespace WeatherApp
             textBox1.Text = "";
             coampsPicture.Image = null;
             umPicture.Image = null;
-            if (_image != null) _image.Dispose();
+            label2.Visible = false;
         }
+
+
 
         public bool TrySetCity(string city, Country country)
         {
             try
             {
                 _city = new City(city, country);
+                _meteoPicture = new MeteoPicture(_city);
                 return true;
             }
             catch (ArgumentException)
@@ -48,80 +63,25 @@ namespace WeatherApp
             }
         }
 
-        public void DownloadPicture(string fileName, Model model)
+        public void ViewPictureOnPictureBox(Model model, PictureBox pictureBox)
         {
-            var pictureUri = GetPictureUri(model);
-
-
-            using (WebClient webClient = new WebClient())
-            {
-                webClient.DownloadFile(pictureUri, fileName);
-            }
-        }
-
-        private string GetPictureUri(Model model)
-        {
-            string path;
             switch (model)
             {
                 case Model.Coamps:
-                    path = String.Format("http://www.meteo.pl/php/mgram_search.php?NALL={0}&EALL={1}&lang=pl", _city.Latitude,
-                                         _city.Longitude);
+                    pictureBox.Load(_meteoPicture.GetCoampsModelUri());
                     break;
 
-                default:
-                case Model.Um:
-                    path = String.Format("http://www.meteo.pl/um/php/mgram_search.php?NALL={0}&EALL={1}&lang=pl", _city.Latitude,
-                                         _city.Longitude);
+                    default:
+                    case Model.Um:
+                    pictureBox.Load(_meteoPicture.GetUmModelUri());
                     break;
             }
-
-
-            WebRequest req = WebRequest.Create(path);
-            WebResponse res = req.GetResponse();
-            string temp = res.ResponseUri.ToString();
-            res.Dispose();
-            string pictureUri;
-
-            switch (model)
-            {
-                case Model.Coamps:
-                    pictureUri = temp.Replace("meteorogram_map_coamps", "mgram_pict").Replace("/php/", "/metco/");
-                    break;
-
-                default:
-                case Model.Um:
-                    pictureUri = temp.Replace("meteorogram_map_um", "mgram_pict").Replace("/php/", "/metco/");
-                    break;
-            }
-            return pictureUri;
-        }
-
-        public void ViewPictureOnPictureBox(string fileName, PictureBox pictureBox)
-        {
-            _image = Image.FromFile(fileName);
-            pictureBox.Image = _image;
+            pictureBox.Location = new Point(tabControl1.Location.X, tabControl1.Location.Y + 50);
             pictureBox.Visible = true;
-            pictureBox.Location = tabControl1.Location;
             tabControl1.Visible = true;
         }
 
-        public void ViewUmPictureFromUrl(PictureBox pictureBox)
-        {
-            pictureBox.ImageLocation = GetPictureUri(Model.Um);
-            pictureBox.Visible = true;
-            pictureBox.Location = tabControl1.Location;
-            tabControl1.Visible = true;
-        }
-
-        public void ViewCoampsPictureFromUrl(PictureBox pictureBox)
-        {
-            pictureBox.ImageLocation = GetPictureUri(Model.Coamps);
-            pictureBox.Visible = true;
-            pictureBox.Location = tabControl1.Location;
-            tabControl1.Visible = true;
-        }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
             string cityName = textBox1.Text;
@@ -134,12 +94,9 @@ namespace WeatherApp
             if (TrySetCity(cityName, Country.Poland))
             {
                 groupBox1.Visible = false;
-                //DownloadPicture(CoampsModelFileName,Model.Coamps);
-                //DownloadPicture(UmModelFileName,Model.Um);
-                //ViewPictureOnPictureBox(CoampsModelFileName, coampsPicture);
-                //ViewPictureOnPictureBox(UmModelFileName, umPicture);
-                ViewUmPictureFromUrl(umPicture);
-                ViewCoampsPictureFromUrl(coampsPicture);
+                ViewPictureOnPictureBox(Model.Um, umPicture);
+                ViewPictureOnPictureBox(Model.Coamps, coampsPicture);
+                SetLabels();
                 this.ClientSize = _workingFormSize;
             }
         }
@@ -152,6 +109,32 @@ namespace WeatherApp
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            umPicture.Refresh();
+            coampsPicture.Refresh();
+        }
+
+        private void WeatherApp_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.City == "")
+            {
+                ResetForm();
+            }
+            TrySetCity(Properties.Settings.Default.City, Country.Poland);
+            groupBox1.Visible = false;
+            ViewPictureOnPictureBox(Model.Um, umPicture);
+            ViewPictureOnPictureBox(Model.Coamps, coampsPicture);
+            SetLabels();
+            this.ClientSize = _workingFormSize;
+        }
+
+        private void WeatherApp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.City = _city.GetCityName();
+            Properties.Settings.Default.Save();
         }
     }
 

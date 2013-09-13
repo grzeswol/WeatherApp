@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="City.cs" />
+    <Compile Include="MeteoPicture.cs" />
     <Compile Include="WeatherApp.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Xml;
 
 namespace WeatherApp
 {
@@ -10,16 +11,21 @@ namespace WeatherApp
     {
         private readonly string _cityName;
         private readonly Country _country;
+
         public string Latitude { get; private set; }
         public string Longitude { get; private set; }
+        public string CurrentTemperature { get; private set; }
+        public string WeatherDescription { get; private set; }
 
         public City(string cityName, Country country)
         {
             _cityName = cityName;
             _country = country;
             SetLatitudeAndLongitude();
+            SetFieldsFromXml();
         }
 
+        
         private void SetLatitudeAndLongitude()
         {
             string path = GetURLForGivenCity(_cityName, _country);
@@ -34,14 +40,13 @@ namespace WeatherApp
             catch (ArgumentException)
             {
                 Latitude = "";
-                Longitude = "";
-                throw;
+                Longitude = "";                
             }
         }
 
         public string RemoveDiacritics(string input)
         {
-            string stFormD = input.Trim().Normalize(NormalizationForm.FormD);
+            string stFormD = input.Trim().Normalize(NormalizationForm.FormD).ToLower();
             int len = stFormD.Length;
             StringBuilder sb = new StringBuilder();
 
@@ -55,12 +60,13 @@ namespace WeatherApp
             }
             sb.Replace('ł', 'l');
             sb.Replace('Ł', 'L');
+            sb.Replace(' ', '+');
             return (sb.ToString().Normalize(NormalizationForm.FormC));
         }
 
         public string GetURLForGivenCity(string city, Country country)
         {
-            string cityNormalized = RemoveDiacritics(city).Replace(' ', '+');
+            string cityNormalized = RemoveDiacritics(city);
             string countryNormalized = country.ToString();
             return
                 string.Format(
@@ -99,6 +105,35 @@ namespace WeatherApp
         public string GetCityName()
         {
             return _cityName;
+        }
+
+        public string GetCityNameNormalized()
+        {
+            return RemoveDiacritics(_cityName);
+        }
+
+        private void SetFieldsFromXml()
+        {
+            string path = string.Format("http://www.pogodynka.net/api:server/weather/getCurrent.xml?city={0}", GetCityNameNormalized());
+            XmlDocument myXmlDocument = new XmlDocument();
+
+            try
+            {
+                myXmlDocument.Load(path);
+
+                XmlElement root = myXmlDocument.DocumentElement;
+                
+                XmlNode tempInC = root.SelectSingleNode("temp_C/text()");
+                CurrentTemperature = tempInC.Value;
+
+                XmlNode weatherDesc = root.SelectSingleNode("weatherDesc/text()");
+                WeatherDescription = weatherDesc.Value;
+            }
+            catch (Exception)
+            {
+                CurrentTemperature = "";
+                WeatherDescription = "";
+            }
         }
     }
 }
