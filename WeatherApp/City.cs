@@ -40,7 +40,8 @@ namespace WeatherApp
             catch (ArgumentException)
             {
                 Latitude = "";
-                Longitude = "";                
+                Longitude = "";
+                throw;
             }
         }
 
@@ -97,7 +98,7 @@ namespace WeatherApp
             string result = GetBetween(webPageSourceCode, "Coords:", @""">");
             if (result == "")
             {
-                throw new ArgumentException("Can't find the city!");
+                throw new ArgumentException("Cannot find the city!");
             }
             return result;
         }
@@ -112,7 +113,7 @@ namespace WeatherApp
             return RemoveDiacritics(_cityName);
         }
 
-        private void SetFieldsFromXml()
+        public void SetFieldsFromXml()
         {
             string path = string.Format("http://www.pogodynka.net/api:server/weather/getCurrent.xml?city={0}", GetCityNameNormalized());
             XmlDocument myXmlDocument = new XmlDocument();

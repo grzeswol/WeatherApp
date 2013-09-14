@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 
 namespace WeatherApp
@@ -22,6 +23,7 @@ namespace WeatherApp
 
         private void SetLabels()
         {
+            _city.SetFieldsFromXml();
             label2.Text = string.Format("{0}, {1}{2}\n{3}", _city.GetCityName().ToUpper(), _city.CurrentTemperature, Degree,
                                         _city.WeatherDescription);
             
@@ -56,10 +58,18 @@ namespace WeatherApp
                 _meteoPicture = new MeteoPicture(_city);
                 return true;
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                MessageBox.Show(@"Cannot find the city!");
+                string message = string.Format("Error: {0}", ex.Message);
+                MessageBox.Show(message, @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+            catch (WebException)
+            {
+                string message = @"Problem with connection!";
+                MessageBox.Show(message, @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
             }
         }
 
@@ -81,6 +91,15 @@ namespace WeatherApp
             tabControl1.Visible = true;
         }
 
+        private void SetNotifyText()
+        {
+            string text = string.Format("{0}, {1}{2}", _city.GetCityName().ToUpper(), _city.CurrentTemperature,
+                                                       Degree);
+            notifyIcon1.BalloonTipText = text;
+            notifyIcon1.BalloonTipTitle = @"WeatherApp";
+            notifyIcon1.Text = text;
+        }
+
         
         private void button1_Click(object sender, EventArgs e)
         {
@@ -93,6 +112,8 @@ namespace WeatherApp
 
             if (TrySetCity(cityName, Country.Poland))
             {
+                timer1.Enabled = true;
+                timer1.Start();
                 groupBox1.Visible = false;
                 ViewPictureOnPictureBox(Model.Um, umPicture);
                 ViewPictureOnPictureBox(Model.Coamps, coampsPicture);
@@ -123,6 +144,8 @@ namespace WeatherApp
             {
                 ResetForm();
             }
+            timer1.Enabled = true;
+            timer1.Start();
             TrySetCity(Properties.Settings.Default.City, Country.Poland);
             groupBox1.Visible = false;
             ViewPictureOnPictureBox(Model.Um, umPicture);
@@ -135,6 +158,55 @@ namespace WeatherApp
         {
             Properties.Settings.Default.City = _city.GetCityName();
             Properties.Settings.Default.Save();
+        }
+
+        private void WeatherApp_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                SetNotifyText();
+                this.Hide();
+                notifyIcon1.Visible = true;
+                notifyIcon1.ShowBalloonTip(300);
+            }
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            notifyIcon1.Visible = false;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            SetLabels();
+            SetNotifyText();
+        }
+
+        private void weatherAppToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            notifyIcon1.Visible = false;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                button1.PerformClick();
+            }
         }
     }
 

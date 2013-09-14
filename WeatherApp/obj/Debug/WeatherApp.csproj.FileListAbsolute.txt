@@ -7,3 +7,7 @@ c:\users\grzes\documents\visual studio 2012\Projects\WeatherApp\WeatherApp\obj\D
 c:\users\grzes\documents\visual studio 2012\Projects\WeatherApp\WeatherApp\obj\Debug\WeatherApp.exe
 c:\users\grzes\documents\visual studio 2012\Projects\WeatherApp\WeatherApp\obj\Debug\WeatherApp.pdb
 C:\Users\grzes\Documents\Visual Studio 2012\Projects\WeatherApp\WeatherApp\obj\Debug\WeatherApp.WeatherApp.resources
+C:\Users\grzes\Documents\Visual Studio 2012\Projects\WeatherApp\WeatherApp\bin\Debug\WeatherApp.exe.manifest
+C:\Users\grzes\Documents\Visual Studio 2012\Projects\WeatherApp\WeatherApp\bin\Debug\WeatherApp.application
+C:\Users\grzes\Documents\Visual Studio 2012\Projects\WeatherApp\WeatherApp\obj\Debug\WeatherApp.exe.manifest
+C:\Users\grzes\Documents\Visual Studio 2012\Projects\WeatherApp\WeatherApp\obj\Debug\WeatherApp.application

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="WeatherApp.exe" version="1.0.0.0" publicKeyToken="08b91ed3aaa75fe3" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="WeatherApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="WeatherApp.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WeatherApp.exe" size="84992">
+      <assemblyIdentity name="WeatherApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>x09DiLSHKY1rOEfIl5aBLtkK8/xdpALbjm00/DkA2ts=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="WeatherApp.exe.config" size="910">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YAVbGQiSFjE3LbqNInX4SZaDTYTYs79m2faCvNEq1q4=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=WIN7_T400\grzes" issuerKeyHash="25ac7b8279529fcbbc2e126f17cc71d38b8b152a" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>el6du12lDXKnz+LJLUNvqVQKriXvbHknVFNveFRUiXg=</DigestValue></Reference></SignedInfo><SignatureValue>XOALneEipQ/s//XG5jV5uP+0i1f+7/F7Oy4Pj7dU/zP6H1Dbed16xzEwiAoA0pT7ecThusp/4t4+jqTFgvL2WYzAGSrRfJejEg2Aosw4Thl09GHjRwbocrngwQDGIrYeZUC8WDb4Dy9G+QsC6h8vEMM1xrg+3vuLrxah2xAv8p8=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>pyCbhzydZRTrx+ZPxOdhwW7y1s6njTDFY7tKqhrzaCJsXj1qSL/TDCgunEwYS4TPd8kctEaTG4cIP5yQha9lP1szpVwET0zF/EgwbbLyZoV9bVT3kR7ml3F7FgRWxFKzhyIbF14aBe6xj8rMtSgVTZj3JQDQwPQ5B7vaOdRJij8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="78895454786f535427796cef25ae0a54a96f432dc9e2cfa7720da55dbb9d5e7a" Description="" Url=""><as:assemblyIdentity name="WeatherApp.exe" version="1.0.0.0" publicKeyToken="08b91ed3aaa75fe3" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=WIN7_T400\grzes</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>5kzotMdrJY4BKuUqQsefNKuw4oOTdSSKiARe5QbahgY=</DigestValue></Reference></SignedInfo><SignatureValue>fLrnNCiBSqZTvjCxBg1p3BjcIlebib7Naee6lNEN7UDMkk5hBUDHvvPRM77WBodFoZFca+En33dlvizD7GgJSKHVkoOCrICajUad18dcsSwVuWgKFixu+rOm752MOPPBVBJYB0nPhlrcWfTujE6feVKyenpGJv6tPpViJOd9dM4=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>pyCbhzydZRTrx+ZPxOdhwW7y1s6njTDFY7tKqhrzaCJsXj1qSL/TDCgunEwYS4TPd8kctEaTG4cIP5yQha9lP1szpVwET0zF/EgwbbLyZoV9bVT3kR7ml3F7FgRWxFKzhyIbF14aBe6xj8rMtSgVTZj3JQDQwPQ5B7vaOdRJij8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB1TCCAT6gAwIBAgIQGmrzrKt/yaNO17Ey+msa7zANBgkqhkiG9w0BAQsFADApMScwJQYDVQQDHh4AVwBJAE4ANwBfAFQANAAwADAAXABnAHIAegBlAHMwHhcNMTMwOTE0MTEwNjI4WhcNMTQwOTE0MTcwNjI4WjApMScwJQYDVQQDHh4AVwBJAE4ANwBfAFQANAAwADAAXABnAHIAegBlAHMwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAKcgm4c8nWUU68fmT8TnYcFu8tbOp40wxWO7Sqoa82gibF49aki/0wwoLpxMGEuEz3fJHLRGkxuHCD+ckIWvZT9bM6VcBE9MxfxIMG2y8maFfW1U95Ee5pdxexYEVsRSs4ciGxdeGgXusY/KzLUoFU2Y9yUA0MD0OQe72jnUSYo/AgMBAAEwDQYJKoZIhvcNAQELBQADgYEAd9Xh4Ysv7MDs+BuQvsDLSr7JZmYKWBNUwnXRaewdPS+ExVt/xwgp6viUF3GU78wqTvD+sUXeiA1XrZMdmS82ByWrt3v7WP+6p26EFKTO8B3P0SGglwGpaJ6wiWMnD9POqmPW8A1Sifqv8IzX3dQWuWoOtoO2icyyB/6FdZcw86M=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

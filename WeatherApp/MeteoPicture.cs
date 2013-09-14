@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
 using System.Net;
 
 namespace WeatherApp
@@ -33,7 +31,7 @@ namespace WeatherApp
 
         
 
-        private void DownloadPicture(string fileName, Model model)
+        /*private void DownloadPicture(string fileName, Model model)
         {
             var pictureUri = GetPictureUri(model);
 
@@ -42,7 +40,7 @@ namespace WeatherApp
             {
                 webClient.DownloadFile(pictureUri, fileName);
             }
-        }
+        }*/
 
         private string GetPictureUri(Model model)
         {
@@ -84,10 +82,9 @@ namespace WeatherApp
                 }
                 return pictureUri;
             }
-            catch (Exception)
+            catch (WebException ex)
             {
-                
-                throw;
+                throw ex;
             }
             
         }

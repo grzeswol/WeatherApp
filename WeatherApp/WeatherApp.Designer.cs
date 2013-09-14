@@ -28,22 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeatherApp));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.setCityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.coampsTab = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.coampsPicture = new System.Windows.Forms.PictureBox();
             this.umModel = new System.Windows.Forms.TabPage();
-            this.umPicture = new System.Windows.Forms.PictureBox();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.umPicture = new System.Windows.Forms.PictureBox();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.weatherAppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.coampsTab.SuspendLayout();
@@ -51,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.coampsPicture)).BeginInit();
             this.umModel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.umPicture)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -76,16 +84,23 @@
             // setCityToolStripMenuItem
             // 
             this.setCityToolStripMenuItem.Name = "setCityToolStripMenuItem";
-            this.setCityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.setCityToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.setCityToolStripMenuItem.Text = "Set city";
             this.setCityToolStripMenuItem.Click += new System.EventHandler(this.setCityToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -111,6 +126,16 @@
             this.coampsTab.TabIndex = 0;
             this.coampsTab.Text = "Coamps model";
             this.coampsTab.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Location = new System.Drawing.Point(26, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 24);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "label2";
             // 
             // groupBox1
             // 
@@ -150,6 +175,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(248, 20);
             this.textBox1.TabIndex = 1;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // coampsPicture
             // 
@@ -173,32 +199,6 @@
             this.umModel.Text = "Um model";
             this.umModel.UseVisualStyleBackColor = true;
             // 
-            // umPicture
-            // 
-            this.umPicture.Location = new System.Drawing.Point(22, 41);
-            this.umPicture.Name = "umPicture";
-            this.umPicture.Size = new System.Drawing.Size(100, 50);
-            this.umPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.umPicture.TabIndex = 0;
-            this.umPicture.TabStop = false;
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(26, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 24);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -209,6 +209,49 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "label3";
             // 
+            // umPicture
+            // 
+            this.umPicture.Location = new System.Drawing.Point(22, 41);
+            this.umPicture.Name = "umPicture";
+            this.umPicture.Size = new System.Drawing.Size(100, 50);
+            this.umPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.umPicture.TabIndex = 0;
+            this.umPicture.TabStop = false;
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 600000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.weatherAppToolStripMenuItem,
+            this.exitToolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(141, 48);
+            // 
+            // weatherAppToolStripMenuItem
+            // 
+            this.weatherAppToolStripMenuItem.Name = "weatherAppToolStripMenuItem";
+            this.weatherAppToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.weatherAppToolStripMenuItem.Text = "WeatherApp";
+            this.weatherAppToolStripMenuItem.Click += new System.EventHandler(this.weatherAppToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem1
+            // 
+            this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
+            this.exitToolStripMenuItem1.Text = "Exit";
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            // 
             // WeatherApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,12 +259,14 @@
             this.ClientSize = new System.Drawing.Size(403, 339);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "WeatherApp";
             this.Text = "WeatherApp";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WeatherApp_FormClosing);
             this.Load += new System.EventHandler(this.WeatherApp_Load);
+            this.Resize += new System.EventHandler(this.WeatherApp_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -233,6 +278,7 @@
             this.umModel.ResumeLayout(false);
             this.umModel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.umPicture)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,6 +302,11 @@
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem weatherAppToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
     }
 }
 

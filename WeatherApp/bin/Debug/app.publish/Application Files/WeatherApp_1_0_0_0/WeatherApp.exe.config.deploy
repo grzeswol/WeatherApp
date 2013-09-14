@@ -11,7 +11,7 @@
     <userSettings>
         <WeatherApp.Properties.Settings>
             <setting name="City" serializeAs="String">
-                <value>Warszawa</value>
+                <value />
             </setting>
         </WeatherApp.Properties.Settings>
     </userSettings>
