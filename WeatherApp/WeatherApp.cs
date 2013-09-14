@@ -134,8 +134,8 @@ namespace WeatherApp
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            umPicture.Refresh();
-            coampsPicture.Refresh();
+            umPicture.Load(_meteoPicture.GetUmModelUri());
+            coampsPicture.Load(_meteoPicture.GetCoampsModelUri());
         }
 
         private void WeatherApp_Load(object sender, EventArgs e)
@@ -194,11 +194,6 @@ namespace WeatherApp
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

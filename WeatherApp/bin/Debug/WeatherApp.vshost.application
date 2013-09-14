@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="WeatherApp.exe.manifest" size="3470">
+    <dependentAssembly dependencyType="install" codebase="WeatherApp.exe.manifest" size="3968">
       <assemblyIdentity name="WeatherApp.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uyeKz8ok0zESslS8cCPhMU9Qmtr09zCWSzgqp09LFns=</dsig:DigestValue>
+        <dsig:DigestValue>KhzsAvgmZeMkq7DlEbxjami4RaQJ/I5ukmN9OgbyNzM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
